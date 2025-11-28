@@ -1,11 +1,25 @@
-<div align="center">
+# Raiku Community Website
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+The official community hub for Raiku — Deterministic Scheduling for Solana.
 
-  <h1>Built with AI Studio</h2>
+## Features
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+- **AI Powered Search**: Ask questions about Raiku and get grounded answers via Gemini AI.
+- **Interactive Quiz**: Test your knowledge in Simple, Hard, and Tough modes.
+- **Leaderboards**: Compete with others and track your scores.
+- **Authentication**: Discord login via Supabase.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Tech Stack
 
-</div>
+- **Frontend**: React, Tailwind CSS, Lucide React
+- **AI**: Google GenAI SDK (Gemini 2.5 Flash)
+- **Backend**: Supabase (Auth & Database)
+
+## Setup
+
+1. Clone the repository.
+2. Set up environment variables in `.env` (or your deployment platform):
+   - `REACT_APP_SUPABASE_URL`
+   - `REACT_APP_SUPABASE_ANON_KEY`
+   - `API_KEY` (Gemini API)
+3. Run the application.
