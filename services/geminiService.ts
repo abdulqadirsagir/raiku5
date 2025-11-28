@@ -2,17 +2,19 @@ import { GoogleGenAI } from "@google/genai";
 import { RAIKU_CONTEXT } from "../constants";
 
 // Initialize Gemini
-// NOTE: Hardcoded for immediate functionality in this environment.
-const apiKey = process.env.API_KEY || 'AIzaSyDpl8KDIF7Fpk5Wa1ivymeX9nIsWVsdtJM'; 
+// SECURITY: Key must be set in Environment Variables (e.g., Vercel Dashboard or .env file)
+const apiKey = process.env.API_KEY; 
 let ai: GoogleGenAI | null = null;
 
 if (apiKey) {
   ai = new GoogleGenAI({ apiKey });
+} else {
+  console.warn("Gemini API Key is missing. Search functionality will be disabled.");
 }
 
 export const searchRaiku = async (query: string): Promise<string> => {
   if (!ai) {
-    return "API Key not configured. Please set process.env.API_KEY.";
+    return "API Key not configured. Please check your environment variables.";
   }
 
   try {

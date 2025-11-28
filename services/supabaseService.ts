@@ -1,12 +1,20 @@
 import { createClient } from '@supabase/supabase-js';
 import { LeaderboardEntry } from '../types';
 
-// NOTE: Hardcoded for immediate functionality in this environment. 
-// In a standard production build, keep using process.env.
-const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL || 'https://vimgrvmlwlqneuttpsuf.supabase.co';
-const SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpbWdydm1sd2xxbmV1dHRwc3VmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQzMzIzODksImV4cCI6MjA3OTkwODM4OX0.VQhXJPGV_pkAuZeuoqdZ84tRPe5jUb3GXnzxmLZcubA';
+// SECURITY: Keys must be set in Environment Variables
+const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  console.warn("Supabase credentials missing. Database features will be disabled.");
+}
+
+// We use the non-null assertion (!) or fallback to empty string to prevent TS errors,
+// but the app will effectively not connect if keys are missing.
+export const supabase = createClient(
+  SUPABASE_URL || '', 
+  SUPABASE_ANON_KEY || ''
+);
 
 export const signInWithDiscord = async () => {
   const { error } = await supabase.auth.signInWithOAuth({
