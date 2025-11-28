@@ -2,9 +2,8 @@ import { GoogleGenAI } from "@google/genai";
 import { RAIKU_CONTEXT } from "../constants";
 
 // Initialize Gemini
-// NOTE: In a real environment, ensure process.env.API_KEY is set.
-// This code assumes the key is available via environment variables or a placeholder is handled.
-const apiKey = process.env.API_KEY || ''; 
+// NOTE: Hardcoded for immediate functionality in this environment.
+const apiKey = process.env.API_KEY || 'AIzaSyDpl8KDIF7Fpk5Wa1ivymeX9nIsWVsdtJM'; 
 let ai: GoogleGenAI | null = null;
 
 if (apiKey) {

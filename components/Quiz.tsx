@@ -21,10 +21,31 @@ const Quiz: React.FC = () => {
   });
 
   const [user, setUser] = useState<any>(null);
+  const [savedStatus, setSavedStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
 
-  // Check auth on mount
+  // Check auth on mount & handle pending score save from redirect
   useEffect(() => {
-    getUser().then(u => setUser(u));
+    const initAuthAndScore = async () => {
+      const u = await getUser();
+      setUser(u);
+
+      // Check for pending score
+      const pending = localStorage.getItem('raiku_pending_score');
+      if (pending && u) {
+        try {
+          const { score, difficulty } = JSON.parse(pending);
+          setSavedStatus('saving');
+          await saveScoreToDb(u.id, u.user_metadata.full_name || 'Anonymous', difficulty, score);
+          setSavedStatus('saved');
+          localStorage.removeItem('raiku_pending_score');
+          alert(`Welcome back ${u.user_metadata.full_name}! Your previous score of ${score} has been saved.`);
+        } catch (e) {
+          console.error("Failed to restore pending score", e);
+        }
+      }
+    };
+
+    initAuthAndScore();
     
     // Listen for auth changes
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
@@ -54,6 +75,7 @@ const Quiz: React.FC = () => {
 
   const selectDifficulty = (diff: Difficulty) => {
     setState(prev => ({ ...prev, difficulty: diff, status: 'rules' }));
+    setSavedStatus('idle');
   };
 
   const startQuiz = () => {
@@ -123,17 +145,23 @@ const Quiz: React.FC = () => {
   };
 
   const handleSaveScore = async () => {
+    if (!state.difficulty) return;
+
     if (!user) {
-      // Trigger Login, handle score save after redirect? 
-      // In this flow, we just login. The user has to play again or we need persistent local storage.
-      // PRD says: "Immediately save score to database" after login.
-      // Simplified: Login -> User is back -> They see the screen -> Click Save again.
+      // Store pending score in localStorage so we can save it after the redirect
+      const pendingData = {
+        score: state.score,
+        difficulty: state.difficulty,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('raiku_pending_score', JSON.stringify(pendingData));
+      
       await signInWithDiscord();
     } else {
-      if (state.difficulty) {
-        await saveScoreToDb(user.id, user.user_metadata.full_name || 'Anonymous', state.difficulty, state.score);
-        alert("Score saved to Leaderboard!");
-      }
+      setSavedStatus('saving');
+      await saveScoreToDb(user.id, user.user_metadata.full_name || 'Anonymous', state.difficulty, state.score);
+      setSavedStatus('saved');
+      alert("Score saved to Leaderboard!");
     }
   };
 
@@ -147,6 +175,7 @@ const Quiz: React.FC = () => {
       answers: {},
       timeLeft: 0,
     });
+    setSavedStatus('idle');
   };
 
   // --- RENDERERS ---
@@ -265,10 +294,17 @@ const Quiz: React.FC = () => {
           <div className="flex flex-col gap-3">
             <button
               onClick={handleSaveScore}
-              className="w-full bg-raiku-primary hover:bg-raiku-primary/80 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+              disabled={savedStatus === 'saved' || savedStatus === 'saving'}
+              className={`w-full font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2 ${
+                savedStatus === 'saved' 
+                  ? 'bg-green-600 text-white cursor-default' 
+                  : 'bg-raiku-primary hover:bg-raiku-primary/80 text-white'
+              }`}
             >
               <Save size={20} /> 
-              {user ? 'Save Score to Leaderboard' : 'Login with Discord to Save'}
+              {savedStatus === 'saved' ? 'Score Saved' : 
+               savedStatus === 'saving' ? 'Saving...' : 
+               user ? 'Save Score to Leaderboard' : 'Login with Discord to Save'}
             </button>
             
             <button
