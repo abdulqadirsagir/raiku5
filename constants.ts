@@ -7,11 +7,11 @@ Key Features:
 1. Deterministic Execution: Raiku ensures transactions are executed in a predictable order, eliminating uncertainty.
 2. Slot Marketplace: A mechanism for buying and selling execution slots.
 3. AOT (Ahead-of-Time) Scheduling: Transactions are scheduled before the block is built.
-4. MEV Protection: By enforcing deterministic ordering, Raiku mitigates malicious Maximal Extractable Value (MEV) strategies like front-running or sandwich attacks.
+4. MEV Protection: By enforcing deterministic ordering, Raiku mitigates malicious Maximal Extractable Value (MEV) strategies like front-running or sandwich trading.
 Mission: To make Solana the most robust and fair high-performance blockchain.
 Official Links: Website (raiku.com), Twitter (@raikucom).
 If the user asks about something unrelated to Raiku, Solana, or blockchain scheduling, politely decline.
-Keep answers under 280 characters.
+Keep answers strictly under 280 characters.
 `;
 
 // --- QUIZ QUESTIONS ---
@@ -49,16 +49,16 @@ export const HARD_QUESTIONS: Question[] = [
 export const TOUGH_MANDATORY: Question[] = [
   {
     id: 'tough-south-park',
-    question: "Describe offmylawn with one of these South Park characters.",
-    options: ["Eric Theodore Cartman", "Stanley 'Stan' Marsh", "Kyle Broflovski", "Kenneth 'Kenny' McCormick"],
-    correctAnswer: "Eric Theodore Cartman", // Logic will treat ALL as correct
+    question: "describe offmylawn with one of these south park characters.",
+    options: ["Eric Theodore Cartman", "Stanley “Stan” Marsh", "Kyle Broflovski", "Kenneth “Kenny” McCormick"],
+    correctAnswer: "Eric Theodore Cartman", // Logic handles "any" in Quiz.tsx
     isMandatoryTough: true
   },
   {
     id: 'tough-fight-club',
-    question: "The first rule of Fight Club is:",
-    options: ["Always invite new members", "You do not talk about Fight Club", "Meetings must be recorded", "Wear official uniforms"],
-    correctAnswer: "You do not talk about Fight Club",
+    question: "the first rule of fight club is",
+    options: ["Always invite new members to Fight Club", "you do not talk about Fight Club", "Fight Club meetings must be recorded for review", "Members must wear official Fight Club uniforms"],
+    correctAnswer: "you do not talk about Fight Club",
     isMandatoryTough: true
   }
 ];

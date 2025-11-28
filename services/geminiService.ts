@@ -24,21 +24,26 @@ export const searchRaiku = async (query: string): Promise<string> => {
       
       User Query: ${query}
       
-      Answer specifically based on the context provided above.
+      Answer specifically based on the context provided above. 
+      Keep the response concise and under 280 characters.
     `;
 
     const response = await ai.models.generateContent({
       model: model,
       contents: prompt,
       config: {
-        maxOutputTokens: 100, // Limit to ensure brevity (~280 chars)
+        // Removed maxOutputTokens to prevent cutting off responses prematurely
+        // relying on system instruction/prompt for length control.
         temperature: 0.3, // Factual
       }
     });
 
     const text = response.text;
     
-    if (!text) return "I couldn't generate a response. Please try again.";
+    if (!text) {
+        console.warn("Gemini returned empty text. Response:", JSON.stringify(response, null, 2));
+        return "I couldn't generate a response. The query might be flagged or unrelated.";
+    }
 
     // Basic heuristic to check if the answer is completely unrelated (though system prompt should handle this)
     if (text.toLowerCase().includes("i cannot") || text.toLowerCase().includes("not related")) {

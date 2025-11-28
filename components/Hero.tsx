@@ -34,7 +34,7 @@ const Hero: React.FC = () => {
 
       <div className="text-center max-w-4xl mx-auto">
         <div className="inline-flex items-center px-3 py-1 rounded-full border border-white/10 bg-white/5 mb-6 backdrop-blur-sm">
-          <span className="text-raiku-secondary text-xs font-bold uppercase tracking-wider">Community Hub</span>
+          <span className="text-raiku-secondary text-xs font-bold uppercase tracking-wider">chrollo6940's hub</span>
         </div>
         
         <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">

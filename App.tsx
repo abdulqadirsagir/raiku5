@@ -8,7 +8,7 @@ import About from './components/About';
 
 const App: React.FC = () => {
   return (
-    <div className="bg-raiku-dark text-white font-sans antialiased min-h-screen flex flex-col selection:bg-raiku-primary selection:text-white">
+    <div className="text-white font-sans antialiased min-h-screen flex flex-col selection:bg-raiku-primary selection:text-white">
       <Navbar />
       <main className="flex-grow">
         <Hero />
