@@ -1,9 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 import { LeaderboardEntry } from '../types';
 
-// NOTE: These should be in environment variables
-const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL || 'https://xyz.supabase.co';
-const SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY || 'your-anon-key';
+// NOTE: Using provided credentials directly to ensure connection
+const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL || 'https://vimgrvmlwlqneuttpsuf.supabase.co';
+const SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpbWdydm1sd2xxbmV1dHRwc3VmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQzMzIzODksImV4cCI6MjA3OTkwODM4OX0.VQhXJPGV_pkAuZeuoqdZ84tRPe5jUb3GXnzxmLZcubA';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
